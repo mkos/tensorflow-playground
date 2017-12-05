@@ -149,6 +149,7 @@ def training_step(i, update_test_data, update_train_data, update_summary):
 
     # training on batches of 100 images with 100 labels
     batch_X, batch_Y = mnist.train.next_batch(100)
+    summ_img = tf.summary.image('input', batch_X, 3)
 
     if update_summary:
         # s = sess.run(merged_summary, feed_dict={X: batch_X, Y_: batch_Y, keep_prob: 0.75, is_training: True,
@@ -159,14 +160,15 @@ def training_step(i, update_test_data, update_train_data, update_summary):
 
     # compute training values for visualisation
     if update_train_data:
-        a, c, lr, acc_s, xent_s, hist_s  = sess.run([accuracy, cross_entropy, alpha, training_accuracy, cross_entropy_summary,
-                                             summ_hist],
+        a, c, lr, acc_s, xent_s, hist_s, img_s  = sess.run([accuracy, cross_entropy, alpha, training_accuracy, cross_entropy_summary,
+                                             summ_hist, summ_img],
                                   feed_dict={X: batch_X, Y_: batch_Y, keep_prob: 0.75, is_training: True,
                                              wavg_decay: 0.999})
 
         writer.add_summary(acc_s, i)
         writer.add_summary(xent_s, i)
         writer.add_summary(hist_s, i)
+        writer.add_summary(img_s, i)
 
         print(str(i) + ": accuracy:" + str(a) + " loss: " + str(c) + " learning rate: " + str(lr))
 
