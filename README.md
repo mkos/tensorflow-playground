@@ -4,6 +4,23 @@ This repo originally started as a fork of Martin's Gorners excellent tutorial re
 [Tensorflow and deep learning, without a PhD](https://github.com/martin-gorner/tensorflow-mnist-tutorial), which quickly
 became my sandbox for experimentation with new features of tensor flow as well as new concepts from deep learning.
 
-Since some of my files were partial copies of Martin's files, where I have added new elements while following the tutorial, I 
-kept the original repo in `originals` directory with all the files from there (I just updated few imports so everyting
+Since some of my files were partial copies of Martin's files, where I have added new elements while following the tutorial.
+I kept the original repo in `originals` directory with all the files from original repo (I just updated few imports so everyting
 was working as expected).
+
+Following files are following [codelab](https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0) based on the
+mentioned eariler tutorial:
+* `mnist_2.0_five_layers_sigmoid.py`
+* `mnist_2.1_five_layers_relu_lrdecay.py`
+* `mnist_2.2_five_layers_relu_lrdecay_dropout.py`
+* `mnist_3.0_convolutional.py`
+* `mnist_3.1_convolutional_moar_filters.py`
+
+Remaining files are modifications of `mnist_3.1_convolutional_moar_filters.py` with less and less dependencies on original
+project files.
+
+* `mnist_4.0_convolutional_moar_filters_batchnorm.py` - added batch normalization
+* `mnist_4.1_convolutional_moar_filters_batchnorm_tensorboard.py` - instead of using custom visualizer, go with tensorboard
+for simple (scalar) metrics
+* `mnist_4.2_conv_bn_tensorboard_with_weights.py` - added plotting layer's weights, biases and activations to tensorboard.
+
