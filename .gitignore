@@ -8,3 +8,5 @@ checkpoints
 MANIFEST
 .idea
 pip.log
+*.h5
+*.json

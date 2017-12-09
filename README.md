@@ -22,5 +22,7 @@ project files.
 * `mnist_4.0_convolutional_moar_filters_batchnorm.py` - added batch normalization
 * `mnist_4.1_convolutional_moar_filters_batchnorm_tensorboard.py` - instead of using custom visualizer, go with tensorboard
 for simple (scalar) metrics
-* `mnist_4.2_conv_bn_tensorboard_with_weights.py` - added plotting layer's weights, biases and activations to tensorboard.
-
+* `mnist_4.2_conv_bn_tensorboard_with_weights.py` - added plotting layer's weights, biases, activations and images to tensorboard.
+Based on an excellent video [Hands-on TensorBoard (TensorFlow Dev Summit 2017)](https://www.youtube.com/watch?v=eBbEDRsCmv4&index=5&list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv)
+(+accompanying [repo](https://github.com/dandelionmane/tf-dev-summit-tensorboard-tutorial))
+* `mnist_5.0_keras_impl.py` - reimplementation in Keras
