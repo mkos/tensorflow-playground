@@ -26,3 +26,4 @@ for simple (scalar) metrics
 Based on an excellent video [Hands-on TensorBoard (TensorFlow Dev Summit 2017)](https://www.youtube.com/watch?v=eBbEDRsCmv4&index=5&list=PLOU2XLYxmsIKGc_NBoIhTn2Qhraji53cv)
 (+accompanying [repo](https://github.com/dandelionmane/tf-dev-summit-tensorboard-tutorial))
 * `mnist_5.0_keras_impl.py` - reimplementation in Keras
+* `mnist_6.0_canned_estimator.py` - reimplementation using Estimator API (simple canned estimator, [source](https://www.katacoda.com/basiafusinska/courses/tensorflow-getting-started/tensorflow-mnist-estimators))
