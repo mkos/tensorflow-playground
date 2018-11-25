@@ -1,6 +1,6 @@
 # Tensorflow playground
 
-This repo originally started as a fork of Martin's Gorners excellent tutorial repo 
+This repo originally started as a fork of Martin's Gorners excellent tutorial repo
 [Tensorflow and deep learning, without a PhD](https://github.com/martin-gorner/tensorflow-mnist-tutorial), which quickly
 became my sandbox for experimentation with new features of tensor flow as well as new concepts from deep learning.
 
@@ -27,3 +27,8 @@ Based on an excellent video [Hands-on TensorBoard (TensorFlow Dev Summit 2017)](
 (+accompanying [repo](https://github.com/dandelionmane/tf-dev-summit-tensorboard-tutorial))
 * `mnist_5.0_keras_impl.py` - reimplementation in Keras
 * `mnist_6.0_canned_estimator.py` - reimplementation using Estimator API (simple canned estimator, [source](https://www.katacoda.com/basiafusinska/courses/tensorflow-getting-started/tensorflow-mnist-estimators))
+* `mnist_6.1_custom_estimator.py` - using custom estimators
+
+## Other
+
+* `halleys.py` - calculating roots of a polynomial using Halley's method (based on exercise from Intro to Tensorflow Coursera course)
