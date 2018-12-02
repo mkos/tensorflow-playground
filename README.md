@@ -32,3 +32,5 @@ Based on an excellent video [Hands-on TensorBoard (TensorFlow Dev Summit 2017)](
 ## Other
 
 * `halleys.py` - calculating roots of a polynomial using Halley's method (based on exercise from Intro to Tensorflow Coursera course)
+* `nyc_taxi_1.0_pandas_input.py` - nyc taxifare dataset, pandas input, canned estimator
+* `taxi_trainer` - project with estimators, ready to use with CMLE, canned estimator, input functions, serving, etc.
