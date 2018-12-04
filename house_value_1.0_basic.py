@@ -35,12 +35,16 @@ def make_feat_cols():
     ]
 
 
-def rmse(labels, predictions):
-    pred_values = tf.cast(predictions['predictions'], tf.float64)
-    return {'rmse': tf.metrics.root_mean_squared_error(labels, pred_values)}
+def scaled_rmse(scale):
+    def _rmse(labels, predictions):
+        pred_values = tf.cast(predictions['predictions'], tf.float64)
+        # return to original scale in metric
+        return {'rmse': tf.metrics.root_mean_squared_error(labels * scale, pred_values * scale)}
+
+    return _rmse
 
 
-def task(num_training_steps, model_dir, resume=False):
+def task(num_training_steps, model_dir, resume=False, scale=100000):
 
     if not resume:
         shutil.rmtree(model_dir, ignore_errors=True)
@@ -52,12 +56,12 @@ def task(num_training_steps, model_dir, resume=False):
         feature_columns=make_feat_cols()
     )
 
-    estimator = tf.contrib.estimator.add_metrics(estimator, rmse)
+    estimator = tf.contrib.estimator.add_metrics(estimator, scaled_rmse(scale))
 
     train_spec = tf.estimator.TrainSpec(
         input_fn=tf.estimator.inputs.pandas_input_fn(
             x=traindf[COLUMNS],
-            y=traindf[LABEL],
+            y=traindf[LABEL] / scale, # scale down
             num_epochs=None,
             shuffle=True,
         ),
@@ -67,7 +71,7 @@ def task(num_training_steps, model_dir, resume=False):
     eval_spec = tf.estimator.EvalSpec(
         input_fn=tf.estimator.inputs.pandas_input_fn(
             x=evaldf[COLUMNS],
-            y=evaldf[LABEL],
+            y=evaldf[LABEL] / scale, # scale down
             num_epochs=1,
             shuffle=False
         ),
