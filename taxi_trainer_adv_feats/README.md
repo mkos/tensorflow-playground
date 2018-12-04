@@ -1,26 +1,17 @@
 Predicting NYC taxi fares. Based on Coursera's Google ML specialisation.
 
+This version has improved and engineered features.
 ## Training locally
 
 ```
-python -m trainer.task \
-    --train-path ../data/taxi/*-train.csv
-    --eval-path ../data/taxi/*-valid.csv
-    --max-steps 4000
-    -- \
-    8 4
-```
-or
-```
 gcloud ml-engine local train \
-    --module-name trainer.task \
-    --package-path $(pwd)/trainer \
-    -- \
-    --train-path ../data/taxi/*-train.csv \
-    --eval-path ../data/taxi/*-valid.csv \
-    --max-steps 4000 \
-    -- \
-    8 4
+        --module-name trainer.task \
+        --package-path ./trainer \
+        -- \
+        --train-path ../data/taxi_adv_feats/train.csv \
+        --eval-path ../data/taxi_adv_feats/valid.csv \
+        --nbuckets 16 \
+        64 64 64 8
 ```
 
 ## Running local prediction
