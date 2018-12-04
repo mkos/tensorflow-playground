@@ -44,7 +44,7 @@ def scaled_rmse(scale):
     return _rmse
 
 
-def task(num_training_steps, model_dir, resume=False, scale=100000):
+def task(num_training_steps, model_dir, resume=False, scale=100000, learning_rate=0.1, batch_size=512):
 
     if not resume:
         shutil.rmtree(model_dir, ignore_errors=True)
@@ -53,7 +53,8 @@ def task(num_training_steps, model_dir, resume=False, scale=100000):
 
     estimator = tf.estimator.LinearRegressor(
         model_dir=model_dir,
-        feature_columns=make_feat_cols()
+        feature_columns=make_feat_cols(),
+        optimizer=tf.train.FtrlOptimizer(learning_rate=learning_rate)
     )
 
     estimator = tf.contrib.estimator.add_metrics(estimator, scaled_rmse(scale))
@@ -63,6 +64,7 @@ def task(num_training_steps, model_dir, resume=False, scale=100000):
             x=traindf[COLUMNS],
             y=traindf[LABEL] / scale, # scale down
             num_epochs=None,
+            batch_size=batch_size,
             shuffle=True,
         ),
         max_steps=num_training_steps
