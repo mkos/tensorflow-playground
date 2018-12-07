@@ -37,3 +37,4 @@ Based on an excellent video [Hands-on TensorBoard (TensorFlow Dev Summit 2017)](
 * `taxi_trainer_adv_feats` - copy of the above, but with wide & deep model, feature engineering (buckets, crosses, embeddings), updated metrics.
 * `house_value_1.0_basic.py` - predict house value using linear regression and _one_ variable.
 * `house_value_1.0_dnn.py` - same as above, with more columns and `DNNRegressor`
+* `house_value_1.0_custom.py` - same as above, with more columns and **custom Estimator**
