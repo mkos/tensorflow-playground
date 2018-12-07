@@ -54,9 +54,12 @@ def make_feat_cols():
 
 def custom_estimator(features, labels, mode, params):
     # 0. Extract data from feature columns
-    input_layer = tf.feature_column.input_layer(features, params['feature_columns'])
+    last_layer = tf.feature_column.input_layer(features, params['feature_columns'])
+    for units in params['hidden_units']:
+        last_layer = tf.layers.dense(last_layer, units)
+        last_layer = tf.layers.dropout(last_layer, rate=params['dropout_rate'])
     # 1. Define Model Architecture
-    predictions = tf.layers.dense(input_layer, 1)
+    predictions = tf.layers.dense(last_layer, 1)
     # 2. Loss function, training/eval ops
     if mode == tf.estimator.ModeKeys.TRAIN or mode == tf.estimator.ModeKeys.EVAL:
         labels = tf.expand_dims(tf.cast(labels, tf.float32), -1)
@@ -69,7 +72,8 @@ def custom_estimator(features, labels, mode, params):
             learning_rate=params['learning_rate']
         )
         eval_metric_ops = {'rmse': tf.metrics.root_mean_squared_error(
-            labels * params['scale'], predictions * params['scale'])}
+            labels * params['scale'], predictions * params['scale']
+            )}
     else:
         train_op = None
         loss = None
@@ -108,6 +112,7 @@ def task(model_dir, num_training_steps, resume=False, scale=100000, learning_rat
             'hidden_units': hidden_units.split(','),
             'learning_rate': learning_rate,
             'scale': scale,
+            'dropout_rate': dropout,
         }
     )
 
