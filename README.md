@@ -38,3 +38,4 @@ Based on an excellent video [Hands-on TensorBoard (TensorFlow Dev Summit 2017)](
 * `house_value_1.0_basic.py` - predict house value using linear regression and _one_ variable.
 * `house_value_1.0_dnn.py` - same as above, with more columns and `DNNRegressor`
 * `house_value_1.0_custom.py` - same as above, with more columns and **custom Estimator**
+* **[WIP]** `house_value_1.0_keras.py` - using **Keras model** as an estimator in TF.
