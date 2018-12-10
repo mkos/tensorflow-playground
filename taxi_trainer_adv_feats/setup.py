@@ -1,7 +1,7 @@
 # minimal setup based on
 # https://python-packaging.readthedocs.io/en/latest/minimal.html
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='taxi_trainer_adv_feats',
       version='0.1',
@@ -10,5 +10,8 @@ setup(name='taxi_trainer_adv_feats',
       author='Michal Kosinski',
       author_email='flyingcircus@example.com',
       license='MIT',
-      packages=['trainer'],
+      packages=find_packages(),
+      install_requires=[
+          'click',
+      ],
       zip_safe=False)

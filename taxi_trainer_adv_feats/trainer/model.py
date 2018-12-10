@@ -73,6 +73,9 @@ def make_dataset(path, mode, batch_size=512):
         .map(csv_decode)
         )
 
+        # file_list = tf.gfile.Glob(path)
+        # dataset = tf.data.TextLineDataset(file_list).map(csv_decode)
+
         if mode == tf.estimator.ModeKeys.TRAIN:
             num_epochs = None  # run indefinitely
             dataset = dataset.shuffle(buffer_size=10*batch_size)
@@ -146,7 +149,7 @@ def add_eval_metrics(labels, predictions):
 def train_and_evaluate(out_dir, training_path, eval_path, hidden_units, nbuckets, max_steps=None):
 
     tf.logging.set_verbosity(tf.logging.INFO)
-    
+
     estimator = build_estimator(out_dir, nbuckets, hidden_units)
 
     train_spec = tf.estimator.TrainSpec(

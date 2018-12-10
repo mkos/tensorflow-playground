@@ -24,6 +24,40 @@ gcloud ml-engine local predict \
     --json-instances=test.json
 ```
 
+## Running cloud training_path
+
+Create bucket
+```
+$ gsutil mb -l $REGION $BUCKET
+```
+
+Copy data
+```
+gsutil cp data/taxi_adv_feats/* $BUCKET
+```
+
+Run job
+```
+$ gcloud ml-engine jobs submit training ${JOBNAME}_6 \
+    --module-name trainer.task \
+    --package-path $PWD/trainer \
+    --job-dir $BUCKET/output \
+    --region europe-west1 --scale-tier=BASIC --runtime-version=1.9 \
+    -- \
+    --train-path $BUCKET/train.csv \
+    --eval-path $BUCKET/valid.csv \
+    --max-steps 20000 \
+    --nbuckets 10 --out-dir $BUCKET/output/taxi_trainer \
+    100 50 20
+```
+
+view job logs
+
+```
+$ gcloud ml-engine jobs stream-logs ${JOBNAME}_6
+```
+
+
 ## Troubleshooting
 
 If you get error:
