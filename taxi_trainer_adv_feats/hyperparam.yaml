@@ -1,0 +1,26 @@
+trainingInput:
+  scaleTier: STANDARD_1
+  hyperparameters:
+    goal: MINIMIZE
+    maxTrials: 30 # <<< so many trials to perform
+    maxParallelTrials: 3
+    hyperparameterMetricTag: rmse # <<< optimizing metric
+    params:
+    - parameterName: nbuckets
+      type: INTEGER
+      minValue: 10
+      maxValue: 20
+      scaleType: UNIT_LINEAR_SCALE
+    - parameterName: hidden-units # <<< watch for '-' vs '_'
+      type: CATEGORICAL
+      categoricalValues: ["128 32", "256 128 16", "64 64 64 8"]
+    - parameterName: batch-size
+      type: INTEGER
+      minValue: 8
+      maxValue: 64
+      scaleType: UNIT_LINEAR_SCALE
+    - parameterName: learning-rate
+      type: DOUBLE
+      minValue: 0.01
+      maxValue: 0.1
+      scaleType: UNIT_LOG_SCALE

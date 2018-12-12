@@ -93,7 +93,7 @@ def make_dataset(path, mode, batch_size=512):
     return _input_fn
 
 
-def build_estimator(model_dir, nbuckets, hidden_units):
+def build_estimator(model_dir, nbuckets, hidden_units, learning_rate    ):
 
     (dayofweek, hourofday, plon, plat, dlon, dlat, pcount, latdiff, londiff, euclidean) = RAW_INPUT_COLS
 
@@ -130,11 +130,19 @@ def build_estimator(model_dir, nbuckets, hidden_units):
         latdiff, londiff, euclidean
     ]
 
+    optimizer = tf.train.FtrlOptimizer(
+        learning_rate=learning_rate,
+        l1_regularization_strength=0.0,
+        l2_regularization_strength=0.0
+    )
+
     estimator = tf.estimator.DNNLinearCombinedRegressor(
         linear_feature_columns=wide_columns,
         dnn_feature_columns=deep_columns,
         dnn_hidden_units=hidden_units,
-        model_dir=model_dir
+        model_dir=model_dir,
+        linear_optimizer=optimizer,
+        dnn_optimizer=optimizer,
         )
 
     estimator = tf.contrib.estimator.add_metrics(estimator, add_eval_metrics)
@@ -146,14 +154,15 @@ def add_eval_metrics(labels, predictions):
     return {'rmse': tf.metrics.root_mean_squared_error(labels, predictions['predictions'])}
 
 
-def train_and_evaluate(out_dir, training_path, eval_path, hidden_units, nbuckets, max_steps=None):
+def train_and_evaluate(out_dir, training_path, eval_path, hidden_units, nbuckets, max_steps,
+                       batch_size, learning_rate):
 
     tf.logging.set_verbosity(tf.logging.INFO)
 
-    estimator = build_estimator(out_dir, nbuckets, hidden_units)
+    estimator = build_estimator(out_dir, nbuckets, hidden_units, learning_rate)
 
     train_spec = tf.estimator.TrainSpec(
-        make_dataset(training_path, mode=tf.estimator.ModeKeys.TRAIN),
+        make_dataset(training_path, mode=tf.estimator.ModeKeys.TRAIN, batch_size=batch_size),
         max_steps=max_steps
     )
 

@@ -36,7 +36,7 @@ Copy data
 gsutil cp data/taxi_adv_feats/* $BUCKET
 ```
 
-Run job
+Run distributed job
 ```
 $ gcloud ml-engine jobs submit training ${JOBNAME}_6 \
     --module-name trainer.task \
@@ -49,6 +49,23 @@ $ gcloud ml-engine jobs submit training ${JOBNAME}_6 \
     --max-steps 20000 \
     --nbuckets 10 --out-dir $BUCKET/output/taxi_trainer \
     100 50 20
+```
+
+Run distributed hyperparam training job:
+
+```
+$ gcloud ml-engine jobs submit training taxi_job_0 \
+    --package-path=$PWD/trainer \
+    --module-name=trainer.task \
+    --job-dir=$BUCKET/output/ \
+    --runtime-version=1.9 \
+    --config=$PWD/hyperparam.yaml \
+    --region=europe-west1
+    -- \
+    --train-path=$BUCKET/data/train.csv \
+    --eval-path=$BUCKET/data/valid.csv \
+    --out-dir=$BUCKET/output/taxi_trainer \
+    --max-steps=5000
 ```
 
 view job logs
