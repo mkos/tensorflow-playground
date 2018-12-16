@@ -11,7 +11,7 @@ gcloud ml-engine local train \
         --train-path ../data/taxi_adv_feats/train.csv \
         --eval-path ../data/taxi_adv_feats/valid.csv \
         --nbuckets 16 \
-        64 64 64 8
+        --hidden-units "64 64 64 8"
 ```
 
 ## Running local prediction
@@ -48,7 +48,7 @@ $ gcloud ml-engine jobs submit training ${JOBNAME}_6 \
     --eval-path $BUCKET/valid.csv \
     --max-steps 20000 \
     --nbuckets 10 --out-dir $BUCKET/output/taxi_trainer \
-    100 50 20
+    --hidden-units "100 50 20"
 ```
 
 Run distributed hyperparam training job:
@@ -72,6 +72,34 @@ view job logs
 
 ```
 $ gcloud ml-engine jobs stream-logs ${JOBNAME}_6
+```
+
+add model to google gcloud
+```
+$ gcloud ml-engine models create ${MODEL_NAME} --regions $REGION
+```
+
+add model version
+```
+$ gcloud ml-engine versions create ${MODEL_VERSION} --model ${MODEL_NAME} --origin ${MODEL_LOCATION} --runtime-version 1.9
+```
+
+if this is _another_ version for this model, you need to set it up as **default version** for that model:
+
+```
+$ gcloud ml-engine versions set-default ${MODEL_VERSION}_v3 --model $MODEL_NAME
+```
+
+run test predictions
+
+```
+gcloud ml-engine predict --model taxi --json-instances test.json
+```
+
+run python client for prediction
+
+```
+$ python -m client.client --project $PROJECT --model-name ${MODEL_NAME} --model-version ${MODEL_VERSION} --token $(gcloud auth print-access-token)
 ```
 
 

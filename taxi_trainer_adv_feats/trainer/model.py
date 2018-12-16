@@ -45,10 +45,11 @@ def add_engineered(features):
 
 
 def serving_input_receiver_fn():
-    feature_placeholders = {col.name: tf.placeholder(tf.float32, shape=None)
-                            for col in RAW_INPUT_COLS[2:]}
+    feature_placeholders = {col: tf.placeholder(tf.float32, shape=None)
+                            for col in CSV_COLUMNS[2:-1]}
     feature_placeholders['dayofweek'] = tf.placeholder(tf.string, shape=None)
     feature_placeholders['hourofday'] = tf.placeholder(tf.int32, shape=None)
+    feature_placeholders['key'] = tf.placeholder(tf.int32, shape=None) # < key is mandatory for distributed prediction
     features = {
         key: tf.expand_dims(tensor, -1)
         for key, tensor in feature_placeholders.items()
